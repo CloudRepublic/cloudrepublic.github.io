@@ -80,6 +80,76 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-Getting-started-with-SPfx" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/14/Getting-started-with-SPfx/" class="article-date">
+  <time datetime="2019-06-14T14:15:35.000Z" itemprop="datePublished">2019-06-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/14/Getting-started-with-SPfx/">Getting started with SharePoint Framework</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Voor een klant zijn we begonnen met het bouwen van hun eerste SharePoint Online webpart. Binnen een Citrix omgeving waar we een Developer VM ter beschikking hebben, moeten we eerst een ontwikkelomgeving opzetten. Voor SharePoint on-premises developers is het een enorme omslag hoe dingen nu ontwikkeld worden met Javascript. Je krijgt te maken met NodeJS, NPM, gulp, Yeoman, etc. om maar wat termen te noemen. Als je ervaring hebt met frontend-ontwikkelen, dan ligt de moeilijkheid in het begrijpen van de (misschien onlogische) concepten van SharePoint Online.</p>
+<p>Door simpelweg de instructies te volgen die te vinden is op <a href="https://docs.microsoft.com" target="_blank" rel="noopener">https://docs.microsoft.com</a> kom je er niet helemaal. Wat ik recent bent tegengekomen is dat er fouten staan omdat de gebruikte tooling online vernieuwd zijn, maar nog niet verwerkt zijn in het SharePoint Framework. Dit geeft als resultaat dat de uitgevoerde commando’s succesvol gelukt zijn met fouten….</p>
+<p><img src="/images/getting-started-with-spfx/why-successfull-with-errors.png"></p>
+<p>De oplossing: Wees niet eigenwijs door altijd de laatste versie te downloaden omdat het beter is (I did this…), maar download specifieke oude versies want onderhoud van gerelateerde componenten is complex. Je doel is om een webpart te maken wat uiteindelijk javascript is. Ik vertrouw erop dat Microsoft dit op zijn tijd zal vernieuwen.</p>
+<p>Om heel wat frustraties (die ik had) je te besparen, heb ik de volgende stappen opgesteld zodat je als startende SPFx-developer snel van start kan gaan met het SharePoint Framework:</p>
+<ul>
+<li>Zet eerst een gratis Developer Tenant op volgens deze instructies:<br><a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant</a>.</li>
+<li>Maak je development omgeving op volgens deze instructies, maar sla <strong>Trusting the self-signed developer certificate</strong> over:<br><a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment</a>.</li>
+<li>Noteer de benodigde urls die je vaak nodig zult hebben<br><strong>Developer-account</strong>: <em>[my-name]@[my-tenant].onmicrosoft.com</em><br><strong>SharePoint Admin-Tenant</strong>: <em>https://[my-tenant]-admin.sharepoint.com</em><br><strong>App Catalog</strong>: <em>https://[my-tenant].sharepoint.com/sites/appcatalog/SitePages/Introductiepagina.aspx</em><br><strong>(Modern) Developer Site</strong>: <em>https://[my-tenant].sharepoint.com/sites/DeveloperModern</em></li>
+<li>Installeer NodeJS 10.15.3 (geen nieuwere versie):<br><a href="https://nodejs.org/dist/v10.15.3/node-v10.15.3-x6msi" target="_blank" rel="noopener">https://nodejs.org/dist/v10.15.3/node-v10.15.3-x6msi</a></li>
+<li>Installeer Python 2.7 (geen nieuwere versie):<br><a href="https://www.python.org/download/releases/2.7/" target="_blank" rel="noopener">https://www.python.org/download/releases/2.7/</a></li>
+<li>In de command-prompt, maak nieuwe folder aan waar je de sources wilt hebben.<br>Voor de niet-DOS generatie developers hier de commando’s om op je C-schijf in de root een map aan te maken:<br><strong>C:</strong><br><strong>md myfirstwebpart</strong><br><strong>cd myfirstwebpart</strong></li>
+<li>SharePoint project aanmaken met volgende commando:<br><strong>yo @microsoft/sharepoint</strong><br>Beantwoord vervolgens de vragen die gesteld worden.</li>
+<li>Voor de zekerheid alle packages installeren van dit project met volgende commando:<br><strong>Npm install</strong></li>
+<li>Development certificaat vertrouwen met volgende commando:<br><strong>gulp trust-dev-cert</strong><br><img src="/images/getting-started-with-spfx/dev-spfx-cert.png"><br>Opmerking: Op de site van docs.microsoft.com stond deze stap boven het maken van een nieuw SPFx-project met yo@microsoft/sharepoint. Niet handig als je nog niet weet dat je een nieuw project gaat maken en zelf mag kiezen.<br><img src="/images/getting-started-with-spfx/trust-self-signed-dev-cert.png"></li>
+<li>Bundel alle assets voor development doeleinde (gehost op <a href="https://localhost:xxxx" target="_blank" rel="noopener">https://localhost:xxxx</a>) met volgende commando:<br><strong>gulp bundle</strong></li>
+<li>Maak de SharePoint-package voor development doeleinde (gehost op <a href="https://localhost:xxxx" target="_blank" rel="noopener">https://localhost:xxxx</a>) met volgende commando:<br><strong>gulp package-solution</strong><br>De uitvoer van dit commando komt terecht in de map ./sharepoint/solution<br>De SharePoint-package is het bestand eindigend met <strong>.sppkg</strong>.</li>
+<li>Start je lokale webserver en de Workbench met het volgende commando:<br><strong>Gulp serve</strong></li>
+</ul>
+<p>Nu kun je aan de slag met Workbench welke automatisch gestart wordt. Je kunt het webpart toevoegen op de pagina en beginnen met ontwikkelen in Visual Studio Code. Let op: Je hebt nu geen beschikking tot data of SharePoint API’s. Het is de bedoeling dat je eerst de UI ontwikkelt en fictieve data maakt en gebruikt. Zorg dat <strong>gulp serve</strong> in de command-prompt blijft draaien. Dit is je lokale webserver van je webpart! Elke keer als je iets aanpast, compileert <strong>gulp serve</strong> je code en ververst automatisch in je browser de Workbench.</p>
+<p><strong>Klaar met mockdata en wil je ontwikkelen in SharePoint Online zodat je over de echte data beschikt van Graph en SharePoint?</strong></p>
+<ul>
+<li>Voer de volgende commando’s uit:<br><strong>gulp bundle</strong><br><strong>gulp package-solution</strong></li>
+<li>Upload en ‘implementeer’ (installeer) de SharePoint-package (.sppkg) naar je eerder ingerichte App-Catalog site:<br>bijv.: https://[my-tenant].sharepoint.com/sites/appcatalog/AppCatalog/Forms/AllItems.aspx</li>
+</ul>
+<p>Nu kun je de app installeren op elke SharePoint site als site beheerder en vervolgens de webpart op een willekeurige plek in je site plaatsen. Je hebt dan ook volledig beschikking tot de API’s van Graph en SharePoint.<br><em>Let op dat je webpart ‘werkt’ zolang <strong>gulp serve</strong> op de achtergrond draait en als iemand op een ander apparaat dezelfde pagina benaderdt, deze een technische foutmelding krijgt</em></p>
+<p><strong>Klaar met ontwikkelen en wil je je ontwikkelde webpart deployen naar Test, Acceptatie en Productie?</strong></p>
+<ul>
+<li>Voer de volgende commando’s uit:<br><strong>gulp bundle –ship</strong><br><strong>gulp package-solution –ship</strong></li>
+<li>Upload en ‘implementeer’ (installeer) de SharePoint-package (.sppkg) naar de App-Catalog site van gewenste tenant:<br>bijv.: https://[test/acc/prod-tenant].sharepoint.com/sites/appcatalog/AppCatalog/Forms/AllItems.aspx</li>
+</ul>
+<p>Nu kun je de app installeren op elke SharePoint site als site beheerder en vervolgens de webpart op een willekeurige plek in je site plaatsen. Iedereen kan de webpart gebruiken en ook op telefoon en tablet via de SharePoint App.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cloudrepublic.github.io/2019/06/14/Getting-started-with-SPfx/" data-id="cjx635wve0000bcuny9o10sds" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Frontend/">Frontend</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Office-365/">Office 365</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SPFx/">SPFx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SharePoint-Framework/">SharePoint Framework</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SharePoint-Online/">SharePoint Online</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webpart/">Webpart</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Workbench/">Workbench</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-follow-the-moon" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/05/22/follow-the-moon/" class="article-date">
@@ -125,7 +195,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cloudrepublic.github.io/2019/05/22/follow-the-moon/" data-id="cjw0ftevn00053oundq29758d" class="article-share-link">Share</a>
+      <a data-url="http://cloudrepublic.github.io/2019/05/22/follow-the-moon/" data-id="cjx635wvi0001bcunou5oi6k1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Azure-DevOps/">Azure DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Release-pipeline/">Release pipeline</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Release-schedule/">Release schedule</a></li></ul>
@@ -166,7 +236,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cloudrepublic.github.io/2019/05/09/Microsoft-Build-2019-Must-Watch-Guide/" data-id="cjw0ftevf00013ouny3iohv8a" class="article-share-link">Share</a>
+      <a data-url="http://cloudrepublic.github.io/2019/05/09/Microsoft-Build-2019-Must-Watch-Guide/" data-id="cjx635wvq0003bcunqnxue8yl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Microsoft-Build/">Microsoft Build</a></li></ul>
@@ -409,7 +479,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure/">Azure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-DevOps/">Azure DevOps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Certificering/">Certificering</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Republic/">Cloud Republic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hybrid/">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft-Build/">Microsoft Build</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-pipeline/">Release pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-schedule/">Release schedule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/">Angular</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure/">Azure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-DevOps/">Azure DevOps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Certificering/">Certificering</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Republic/">Cloud Republic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Frontend/">Frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hybrid/">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft-Build/">Microsoft Build</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Office-365/">Office 365</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-pipeline/">Release pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-schedule/">Release schedule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPFx/">SPFx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Framework/">SharePoint Framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Online/">SharePoint Online</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpart/">Webpart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Workbench/">Workbench</a></li></ul>
     </div>
   </div>
 
@@ -419,7 +489,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Angular/" style="font-size: 10px;">Angular</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Azure/" style="font-size: 10px;">Azure</a> <a href="/tags/Azure-DevOps/" style="font-size: 10px;">Azure DevOps</a> <a href="/tags/Certificering/" style="font-size: 10px;">Certificering</a> <a href="/tags/Cloud-Republic/" style="font-size: 10px;">Cloud Republic</a> <a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/Microsoft-Build/" style="font-size: 10px;">Microsoft Build</a> <a href="/tags/Release-pipeline/" style="font-size: 10px;">Release pipeline</a> <a href="/tags/Release-schedule/" style="font-size: 10px;">Release schedule</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a>
+      <a href="/tags/Angular/" style="font-size: 10px;">Angular</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Azure/" style="font-size: 10px;">Azure</a> <a href="/tags/Azure-DevOps/" style="font-size: 10px;">Azure DevOps</a> <a href="/tags/Certificering/" style="font-size: 10px;">Certificering</a> <a href="/tags/Cloud-Republic/" style="font-size: 10px;">Cloud Republic</a> <a href="/tags/Frontend/" style="font-size: 10px;">Frontend</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/Microsoft-Build/" style="font-size: 10px;">Microsoft Build</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Release-pipeline/" style="font-size: 10px;">Release pipeline</a> <a href="/tags/Release-schedule/" style="font-size: 10px;">Release schedule</a> <a href="/tags/SPFx/" style="font-size: 10px;">SPFx</a> <a href="/tags/SharePoint-Framework/" style="font-size: 10px;">SharePoint Framework</a> <a href="/tags/SharePoint-Online/" style="font-size: 10px;">SharePoint Online</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/Webpart/" style="font-size: 10px;">Webpart</a> <a href="/tags/Workbench/" style="font-size: 10px;">Workbench</a>
     </div>
   </div>
 
@@ -428,7 +498,7 @@ ga('send', 'pageview');
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -439,6 +509,10 @@ ga('send', 'pageview');
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/06/14/Getting-started-with-SPfx/">Getting started with SharePoint Framework</a>
+          </li>
         
           <li>
             <a href="/2019/05/22/follow-the-moon/">Following the moon</a>
@@ -454,10 +528,6 @@ ga('send', 'pageview');
         
           <li>
             <a href="/2019/01/11/Migrating-AngularJS-to-Angular-Going-Hybrid/">Migrating AngularJS to Angular - Going Hybrid</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/01/Cloud-Republic-investeert-in-medewerkers/">Cloud Republic investeert in medewerkers</a>
           </li>
         
       </ul>
