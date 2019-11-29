@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-130626812-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <title>Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer | Cloud Republic Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Case omschrijving Niet lang geleden heb ik besloten om mij eens goed te gaan verdiepen in Docker. Je hoort het overal en het wordt steeds populairder en ik hoor steeds vaker dat het een goed alternati">
+<meta name="keywords" content="Docker swarm,Let&#39;s Encrypt,Traefik,Portainer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer">
+<meta property="og:url" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;2019&#x2F;11&#x2F;03&#x2F;Docker-Swarm&#x2F;index.html">
+<meta property="og:site_name" content="Cloud Republic Blog">
+<meta property="og:description" content="Case omschrijving Niet lang geleden heb ik besloten om mij eens goed te gaan verdiepen in Docker. Je hoort het overal en het wordt steeds populairder en ik hoor steeds vaker dat het een goed alternati">
+<meta property="og:locale" content="EN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-overview.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-scaling.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-portainer-dashboard.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-landschap.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-traffic-manager-configuration.png">
+<meta property="og:updated_time" content="2019-11-29T14:14:53.465Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;Docker-Swarm-overview.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Cloud Republic Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cloud Republic Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">De Cloud Developers van morgen.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://cloudrepublic.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Docker-Swarm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/03/Docker-Swarm/" class="article-date">
+  <time datetime="2019-11-03T11:00:00.000Z" itemprop="datePublished">2019-11-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Case-omschrijving"><a href="#Case-omschrijving" class="headerlink" title="Case omschrijving "></a>Case omschrijving </h2><p>Niet lang geleden heb ik besloten om mij eens goed te gaan verdiepen in Docker. Je hoort het overal en het wordt steeds populairder en ik hoor steeds vaker dat het een goed alternatief is voor de huidige manier van werken namelijk Faas en Paas in een public cloud hierdoor ben ik nieuwsgierig geworden en wil ik eens kijken wat hier nu de voordelen van zijn. Ik ben begonnen om mij te certificeren, ik heb een cursus gevolgd en mijn examen met succes behaald. Ik vind het altijd belangrijk om te weten hoe iets in elkaar zit en waarom het zo in elkaar zit. Mijn idee is om een of meerdere productie applicaties op een Docker Swarm cluster te gaan draaien. In deze blog ga ik laten zien hoe ik een goede infrastructuur bouw om de applicaties te hosten.</p>
+<p>De omgeving moest aan de volgende voorwaarden voldoen:</p>
+<ul>
+<li>Er moeten meerdere web applicaties op kunnen draaien welke op poort 80 en 443 benaderd kunnen worden.</li>
+<li>Alle web applicaties moeten draaien op SSL, dit moet mij zo min mogelijk werk kosten.</li>
+<li>De oplossing moet schaalbaar zijn en bestand zijn tegen het uitvallen en/of offline gaan van servers.</li>
+<li>Ik wil de oplossing kunnen hosten bij een Cloud provider, Hosting provider of lokaal om te kunnen testen.</li>
+<li>Het beheren van de containers moet gemakkelijk en overzichtelijk zijn.</li>
+<li>Aangezien ik een echte Hollander ben moeten de kosten ook een beetje beperkt blijven.</li>
+</ul>
+<p>De oplossing welke ik heb gemaakt is een combinatie van Docker Swarm, Traefik, Let’s Encrypt en Portainer.</p>
+<h2 id="Wat-is-Docker-Swarm"><a href="#Wat-is-Docker-Swarm" class="headerlink" title="Wat is Docker Swarm"></a>Wat is Docker Swarm</h2><p>Docker Swarm is een tool waarmee je Docker-containers kunt beheren en schalen. Als je Docker installeert dan krijg je daar meteen Swarm bij. Docker Swarm is een standaard product van Docker wat bij elke installatie van Docker wordt meegeleverd. Met Docker Swarm kun je een cluster bouwen van verschillende virtuele machines deze worden hierna nodes genoemd. Hierop kunnen de Docker-containers worden gedeployed als een stack[^2] of een service[^1]. Als je een cluster wilt hebben wat een hoge beschikbaarheid heeft wordt aangeraden om minstens 3 manager nodes te hebben. Docker Swarm maakt namelijk gebruik van het Raft Consensus Algoritme, 1 manager is de leider van de swarm en de status van de manager wordt gesynchroniseerd over de overige managers. Mocht de leider niet meer beschikbaar zijn om wat voor reden dan ook kan een andere manager zijn taken over nemen.</p>
+<p>Om te berekenen hoeveel managers er mogen uitvallen voordat het cluster niet meer kan functioneren wordt de volgende berekening gebruikt:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = (N-1)/2</span><br></pre></td></tr></table></figure></p>
+<p>Bij dus een cluster van 3 manager mag er 1 manager uitvallen en zal het cluster nog steeds functioneren. Docker adviseert om niet meer dan 7 managers te gebruiken om performance issues met het synchroniseren te voorkomen. Voor meer informatie zie <a href="https://docs.docker.com/engine/swarm/raft/" target="_blank" rel="noopener">https://docs.docker.com/engine/swarm/raft/</a></p>
+<p>Om een Docker Swarm cluster op te zetten kun je de volgende stappen uitvoeren:</p>
+<ul>
+<li>Installeer 5 virtuele machine met bijv. Ubuntu server. Voor de 3 managers hebben we niet hele zware virtuele machines nodig. Een basic A1 1.75 GB RAM volstaat al voor een manager node. Voor de 2 worker nodes zou ik kiezen voor een virtuele machine met 8 GB RAM. </li>
+<li>Installeer Docker community edition op alle 5 de servers. Volg de handleiding op <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/</a>. </li>
+<li>Op 1 van de manager servers voer het volgende commando uit om Docker Swarm te initialiseren.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init --advertise-addr &quot;public ipadres van de server&quot;</span><br><span class="line">Swarm initialized: current node (bvz81updecsj6wjz393c09vti) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following command:</span><br><span class="line"></span><br><span class="line">    docker swarm join \npm install hexo --save</span><br><span class="line">    --token SWMTKN-1-3pu6hszjas19xyp7ghgosyx9k8atbfcr8p2is99znpy26u2lkl-1awxwuwd3z9j1z3puu7rcgdbx \</span><br><span class="line">    172.17.0.2:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run &apos;docker swarm join-token manager&apos; and follow the instructions.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Voer het bovenstaande docker swarm join token uit op de 2 nodes. </li>
+<li>Voer het commando docker swarm join-token manager uit en voer het join commando uit op de overige 2 managers.</li>
+</ul>
+<p>Als dit klaar gedaan is heb je een Docker Swarm cluster gemaakt zoals in het onderstaande overzicht is weergegeven.</p>
+<p><img src="/images/Docker-Swarm-overview.png"><br>Mocht je meer details willen hebben over het opzetten van een Docker Swarm cluster kijk dan op: <a href="https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/" target="_blank" rel="noopener">https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/</a></p>
+<p>Docker Swarm zal niet automatisch schalen als de load op je applicatie hoger wordt, wil je meer containers uitrollen van je applicatie kun je dit doen door meer replica’s aan te maken. Als je bijv. de service api_api wilt opschalen naar 5 instanties kun je dit doen door middel van het volgende commando:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker service scale api_api=5</span><br></pre></td></tr></table></figure>
+<p>Je kunt de schaling ook regelen in de UI van Portainer. Verderop in het artikel ga ik dieper in op hoe en wat Portainer is.<br><img src="/images/Docker-Swarm-scaling.png"></p>
+<p>Mocht je nu toch te weinig capaciteit hebben in je cluster kun je eenvoudig een nieuwe virtuele machine inrichten met Ubuntu en Docker erop installeren. Hierna voer je het Docker Swarm join commando uit op de server en deze zal het bestaande cluster uitbreiden met de extra capaciteit. Om inzicht te krijgen in de performance van het cluster zijn monitoring applicaties beschikbaar, een van de bekendere is Prometheus. Het gaat in deze blog te ver om de ins en outs van Prometheus te behandelen. Mocht je meer informatie willen hebben over Prometheus zie <a href="https://prometheus.io/" target="_blank" rel="noopener">https://prometheus.io/</a>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker swarm join \</span><br><span class="line">    --token SWMTKN-1-3pu6hszjas19xyp7ghgosyx9k8atbfcr8p2is99znpy26u2lkl-1awxwuwd3z9j1z3puu7rcgdbx \</span><br><span class="line">    172.17.0.2:2377</span><br></pre></td></tr></table></figure>
+<p>Mocht je Docker Swarm op Azure hebben uitgerold kun je gebruik maken van een vm scale sets om automatisch nodes bij je cluster te zetten. Ik heb hier verder nog geen ervaring mee maar ga hier zeker mee aan de slag.</p>
+<p>Omdat ik Docker Swarm gebruik kan ik de volgende punten afvinken van mijn lijstje:</p>
+<ul>
+<li>De oplossing moet schaalbaar zijn en bestand zijn tegen het uitvallen of offline gaan van servers.<br>  – In het cluster zitten 3 managers dus er kan er 1 offline gaan volgens de berekening: “3 managers - 1 = 2  2/2 = 1.<br>  – Ook hebben we 2 workers welke de containers kunnen hosten. Mocht er 1 offline gaan worden de containers opnieuw gestart op de andere node.<br>  – De manager heeft onder andere als taak om er voor te zorgen dat de containers draaien op 1 of meerdere nodes.</li>
+<li>Ik wil de oplossing kunnen hosten bij een Cloud provider, Hosting provider of lokaal om te kunnen testen.<br>  – Omdat Docker Swarm standaard in elke Docker installatie zit kan het zonder verdere installatie van tools gebruikt worden overal waar je Docker hebt geïnstalleerd.  </li>
+</ul>
+<h2 id="Wat-is-Let’s-Encrypt"><a href="#Wat-is-Let’s-Encrypt" class="headerlink" title="Wat is Let’s Encrypt"></a>Wat is Let’s Encrypt</h2><p>Let’s Encrypt is een certificaatautoriteit opgericht op 16 april 2016. Het geeft X.509 certificaten uit voor het Transport Layer Security (TLS) encryptie-protocol, zonder dat dit kosten met zich meebrengt. De certificaten worden uitgegeven via een geautomatiseerd proces dat is ontworpen om het tot nu toe complexe proces van handmatige validatie, ondertekening, installatie en hernieuwing van certificaten voor beveiligde websites te elimineren. (<a href="https://nl.wikipedia.org/wiki/Let%27s_Encrypt" target="_blank" rel="noopener">Wikipedia</a>)</p>
+<p>Voor meer informatie over Let’s Encrypt zie <a href="https://letsencrypt.org/" target="_blank" rel="noopener">https://letsencrypt.org/</a></p>
+<h2 id="Wat-is-Traefik"><a href="#Wat-is-Traefik" class="headerlink" title="Wat is Traefik"></a>Wat is Traefik</h2><p>Traefik is een opensource router welke speciaal is ontworpen voor container oplossingen. Traefik wordt als global service op elke manager gedeployed op het cluster. Dit wil zeggen elke node met als rol manager krijgt een Traefik container. De reden dat Traefik op de manager nodes gedeployed dient te worden is dat de Docker api wordt uitgelezen. Zodra er een container bij komt en deze is geconfigureerd met de Traefik labels kan Traefik de labels van de container uitlezen en een virtuele host aanmaken voor de container en een SSL-certificaat aanvragen bij Let’s Encrypt. Zodoende is de container beschikbaar voor de buitenwereld met een SSL-certificaat.</p>
+<p>Zie hier een voorbeeld Docker-Compose[^3] file om een Traefik container te deployen als stack[^2] op het Docker Swarm cluster.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.7'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  traefik:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">traefik:1.7.13</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="attr">      - target:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">        published:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">        mode:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">      - target:</span> <span class="number">443</span></span><br><span class="line"><span class="attr">        published:</span> <span class="number">443</span></span><br><span class="line"><span class="attr">        mode:</span> <span class="string">host</span></span><br><span class="line"><span class="attr">    command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      --api</span></span><br><span class="line"><span class="string">      --acme</span></span><br><span class="line"><span class="string">      --acme.storage=/certs/acme.json</span></span><br><span class="line"><span class="string">      --acme.entryPoint=https</span></span><br><span class="line"><span class="string">      --acme.httpChallenge.entryPoint=http</span></span><br><span class="line"><span class="string">      --acme.onHostRule=true</span></span><br><span class="line"><span class="string">      --acme.onDemand=false</span></span><br><span class="line"><span class="string">      --acme.acmelogging=true</span></span><br><span class="line"><span class="string">      --acme.email=$&#123;EMAIL&#125;</span></span><br><span class="line"><span class="string">      --docker</span></span><br><span class="line"><span class="string">      --docker.swarmMode</span></span><br><span class="line"><span class="string">      --docker.domain=$&#123;DOMAIN&#125;</span></span><br><span class="line"><span class="string">      --docker.watch</span></span><br><span class="line"><span class="string">      --defaultentrypoints=http,https</span></span><br><span class="line"><span class="string">      --entrypoints='Name:http Address::80'</span></span><br><span class="line"><span class="string">      --entrypoints='Name:https Address::443 TLS'</span></span><br><span class="line"><span class="string">      --logLevel=DEBUG</span></span><br><span class="line"><span class="string">      --accessLog</span></span><br><span class="line"><span class="string"></span><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span></span><br><span class="line"><span class="attr">      - traefik_certs:</span><span class="string">/certs</span></span><br><span class="line"><span class="attr">    configs:</span></span><br><span class="line"><span class="attr">      - source:</span> <span class="string">traefik_htpasswd</span></span><br><span class="line"><span class="attr">        target:</span> <span class="string">/etc/htpasswd</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">public</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      mode:</span> <span class="string">global</span></span><br><span class="line"><span class="attr">      replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">      placement:</span></span><br><span class="line"><span class="attr">        constraints:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span></span><br><span class="line"><span class="attr">      update_config:</span></span><br><span class="line"><span class="attr">        parallelism:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">        delay:</span> <span class="number">10</span><span class="string">s</span></span><br><span class="line"><span class="attr">      restart_policy:</span></span><br><span class="line"><span class="attr">        condition:</span> <span class="string">on-failure</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.docker.network=public"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.port=8080"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.backend=traefik"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.enable=true"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.frontend.rule=Host:traefik.$&#123;DOMAIN&#125;"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.frontend.auth.basic.usersFile=/etc/htpasswd"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.frontend.headers.SSLRedirect=true"</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">"traefik.frontend.entryPoints=http,https"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">configs:</span></span><br><span class="line"><span class="attr">  traefik_htpasswd:</span></span><br><span class="line"><span class="attr">    file:</span> <span class="string">./htpasswd</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  public:</span></span><br><span class="line"><span class="attr">    driver:</span> <span class="string">overlay</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">public</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="attr">  traefik_certs:</span> <span class="string">&#123;&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>Om de stack* uit te rollen voeren we het volgende commando uit om een manager node:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c docker-compose.traefik.yml proxy</span><br></pre></td></tr></table></figure></p>
+<p>Een kleine samenvatting wat er gebeurt in dit Docker-Compose[^3] bestand:</p>
+<ul>
+<li>We maken een container aan op basis van traefik:1.7.13.</li>
+<li>We publiseren poort 80 en 443.</li>
+<li>We regelen de Docker swarm en acme configuratie in.</li>
+<li>We mounten 2 volumes.</li>
+<li>We koppelen het wachtwoord bestand vanuit de config.</li>
+<li>We zorgen dat het wordt uitgerold op elke manager in het cluster.</li>
+<li>We regelen de webui van Traefik in.</li>
+<li>We maken een netwerk aan genaamd Public van het type overlay. </li>
+</ul>
+<p>Voor meer informatie over Traefik zie <a href="https://traefik.io/" target="_blank" rel="noopener">https://traefik.io/</a></p>
+<p>Omdat ik Traefik gebruik als reverse proxy kan ik de volgende punten afvinken van mijn lijstje:</p>
+<ul>
+<li>Er moeten meerdere web applicaties op kunnen draaien welke op poort 80 en 443 benaderd kunnen worden.<br>  – Doordat Traefik de labels van containers kan uitlezen maakt het automatisch virtuele hosts aan.</li>
+<li>Alle webapplicaties moeten draaien op ssl, dit moet mij zo min mogelijk werk kosten.<br>  – Traefik ondersteund out of the box Let’s Encrypt SSL-certificaten.</li>
+</ul>
+<h2 id="Wat-is-Portainer"><a href="#Wat-is-Portainer" class="headerlink" title="Wat is Portainer"></a>Wat is Portainer</h2><p>Portainer is een opensource web interface om je Docker te beheren zowel lokaal als remote. Met Portainer kun je de volgende Docker concepten beheren:  </p>
+<ul>
+<li>Containers</li>
+<li>Images</li>
+<li>Networks</li>
+<li>Volumes</li>
+<li>Services</li>
+<li>Swarm Cluster</li>
+</ul>
+<p><img src="/images/Docker-Swarm-portainer-dashboard.png"></p>
+<p>Portainer dient ook op een manager node geïnstalleerd te worden omdat Portainer ook via de Docker api het cluster beheerd. Tevens is er Portainer agent beschikbaar welke als global service gedeployed dient te worden op alle nodes zodat Portainer ook weet heeft welke containers op welke nodes draaien.</p>
+<p>Zie hier een voorbeeld Docker-Compose[^3] file om een Portainer container en een Portainer agent te deployen als stack** op Docker Swarm.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.7'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  agent:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">portainer/agent</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      AGENT_CLUSTER_ADDR:</span> <span class="string">tasks.agent</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/var/lib/docker/volumes:/var/lib/docker/volumes</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">private</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      mode:</span> <span class="string">global</span></span><br><span class="line"><span class="attr">  portainer:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">portainer/portainer</span></span><br><span class="line"><span class="attr">    command:</span> <span class="bullet">-H</span> <span class="attr">tcp://tasks.agent:9001</span> <span class="bullet">--tlsskipverify</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="attr">      - portainer-data:</span><span class="string">/data</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">private</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">public</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      placement:</span></span><br><span class="line"><span class="attr">        constraints:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">node.role</span> <span class="string">==</span> <span class="string">manager</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.frontend.rule=Host:portainer.$&#123;DOMAIN&#125;</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.enable=true</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.port=9000</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.tags=public</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.docker.network=public</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.redirectorservice.frontend.entryPoints=http</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.redirectorservice.frontend.redirect.entryPoint=https</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.webservice.frontend.entryPoints=https</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  private:</span></span><br><span class="line"><span class="attr">    driver:</span> <span class="string">overlay</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">private</span></span><br><span class="line"><span class="attr">  public:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="attr">  portainer-data:</span> <span class="string">&#123;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Om de stack** uit te rollen voeren we het volgende commando uit om een manager node:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c docker-compose.portainer.yml portainer</span><br></pre></td></tr></table></figure></p>
+<p>Vanaf nu kunnen we Portainer benaderen op de URL <a href="https://portainer.yourdomain.com" target="_blank" rel="noopener">https://portainer.yourdomain.com</a> en kunnen we hier vandaan de rest van de services[^1] en stacks* deployen en beheren.</p>
+<p>Een kleine samenvatting wat er gebeurt in dit Docker-Compose[^3] bestand:</p>
+<ul>
+<li>We maken een container aan op basis van portainer/portainer en portainer/agent.</li>
+<li>We publiceren poort 9000 voor de UI.</li>
+<li>We regelen de Traefik configuratie in.</li>
+<li>We mounten een volume voor de Portainer data.</li>
+<li>We zorgen dat de Portainer container wordt uitgerold op een manager in het cluster en dat de agent op elke node in het cluster wordt uitgerold. </li>
+<li>We maken een netwerk aan met de naam Private en koppelen dit aan de agent en de Portainer UI.</li>
+<li>We koppelen de Portainer UI ook aan het netwerk Public wat we hebben aangemaakt in de Traefik deploy.</li>
+</ul>
+<p>Voor meer informatie over Portainer kijk op: <a href="https://www.portainer.io/" target="_blank" rel="noopener">https://www.portainer.io/</a>. </p>
+<p>Omdat ik Portainer gebruik als beheer tool kan ik het laatste punt afvinken van mijn lijstje:</p>
+<ul>
+<li>Het beheren van de containers moet gemakkelijk en overzichtelijk zijn. </li>
+</ul>
+<h2 id="De-combinatie-van-Docker-Swarm-Traefik-Let’s-Encrypt-en-Portainer"><a href="#De-combinatie-van-Docker-Swarm-Traefik-Let’s-Encrypt-en-Portainer" class="headerlink" title="De combinatie van Docker Swarm, Traefik, Let’s Encrypt en Portainer"></a>De combinatie van Docker Swarm, Traefik, Let’s Encrypt en Portainer</h2><p>We hebben het hierboven gehad over Docker Swarm, Traefik, Let’s Encrypt en Portainer maar hoe ziet dat landschap er nu uit.<br>In de volgende afbeelding heb ik een overzicht van het landschap zoals hierboven omschreven.</p>
+<p><img src="/images/Docker-Swarm-landschap.png"></p>
+<p>Ik heb gekozen om Azure Traffic Manager te gebruiken als loadbalancer voor om het verkeer te verdelen tussen de 3 verschillende managers. De gedachte hier achter is grotendeels dat het een erg goedkope service is in Azure en het werkt ook met externe endpoints. Je bent dus niet verplicht om je virtuele machines op Azure te moeten draaien dit geeft je weer de flexibiliteit om de machines overal te hosten.</p>
+<p>Ik heb 3 endpoints gedefineerd in de Azure Traffic Manager 1 endpoint voor elke manager.<br>Ik heb Azure Traffic Manager ingeregeld dat hij voor de beste performance kiest. Je kunt een protocol, poort en eventueel een pad opgeven wat hij moet controleren. Mocht het endpoint niet meer beschikbaar zijn zal er geen verkeer meer naar toe gestuurd worden. Dus als er een storing of een update is van een manager zal er geen downtime zijn in de applicaties. Als er een manager niet bereikbaar is hebben we nog 2 andere managers over welke het werk overnemen.</p>
+<p><img src="/images/Docker-Swarm-traffic-manager-configuration.png"></p>
+<p>Hierna komt het verkeer binnen op de Traefik loadbalancer welke de Reverse proxy en de SSL-certificaten verzorgd. Traefik weet welk request er naar welke container gestuurd moet worden door middel van de labels welke zijn ingesteld bij het deployen van de stack[^2] of service[^1] en Docker maakt intern gebruikt van zijn eigen DNS server zodat er bekend is welke container er op welke node draait. </p>
+<p>Zie hier een voorbeeld Docker-Compose[^3] file met labels om een Docker container met een webapplicatie te deployen als stack** op een Docker Swarm cluster.<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">  version:</span> <span class="string">'3.7'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  web:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">marcoippel/web:0.1</span></span><br><span class="line"><span class="attr">    environment:</span> </span><br><span class="line"><span class="bullet">      -</span> <span class="string">ASPNETCORE_URLS=http://+:5000</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">public</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      placement:</span></span><br><span class="line"><span class="attr">        constraints:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">node.role</span> <span class="string">==</span> <span class="string">worker</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.frontend.rule=Host:test.$&#123;DOMAIN&#125;</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.enable=true</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.port=80</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.tags=public</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.docker.network=public</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.redirectorservice.frontend.entryPoints=http</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.redirectorservice.frontend.redirect.entryPoint=https</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">traefik.webservice.frontend.entryPoints=https</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  public:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>Het Docker-Compose[^3] bestand kan in Portainer als stack gedeployed worden op het cluster.</p>
+<h2 id="Conclusie"><a href="#Conclusie" class="headerlink" title="Conclusie"></a>Conclusie</h2><p>Ik vind dat de combinatie van de verschillende tools een goede basis is voor het applicatielandschap. Het is flexibel, schaalbaar en niet bijzonder complex. Docker Swarm staat ook bekend om zijn eenvoudigheid. Aangezien ik geen infrastructuur met honderden nodes en duizenden containers hoef te hosten is dit een hele geschikte oplossing. Docker Swarm heeft niet een hele steile leercurve dus je kunt er al snel mee aan de slag. Door de reverse proxy van Traefik kunnen virtuele hosts automatisch worden aangemaakt en is SSL meteen geregeld. Met Portainer als UI voor het beheer kun je in een mum van tijd een heel applicatie landschap optuigen zonder al te veel tijd en kosten te moeten investeren.</p>
+<p>Om het laatste puntje van mijn lijstje af te kunnen vinken heb ik hier een klein overzicht met een kosten indicatie van 3 verschillende providers waar je een docker Swarm cluster kan hosten. De totaal kosten welke hieronder staan zijn gebaseerd op 3 manager nodes en 2 worker nodes. De Manager nodes hebben allemaal 2 gig geheugen en de workers hebben 8 gig geheugen.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Provider</th>
+<th style="text-align:left">Manager VM</th>
+<th style="text-align:left">Worker VM</th>
+<th style="text-align:left">Totaal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://azure.microsoft.com/nl-nl/pricing/details/virtual-machines/ubuntu-advantage-standard/" target="_blank" rel="noopener">Azure</a></td>
+<td style="text-align:left">B1MS      €32/mo</td>
+<td style="text-align:left">B2MS      €76/mo</td>
+<td style="text-align:left">€248/mo</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://www.digitalocean.com/pricing/#Compute" target="_blank" rel="noopener">Digital Ocean</a></td>
+<td style="text-align:left">Standard  $10/mo</td>
+<td style="text-align:left">Standard  $40/mo</td>
+<td style="text-align:left">$110/mo</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://www.strato.nl/server/vps-linux/" target="_blank" rel="noopener">Strato</a></td>
+<td style="text-align:left">Linux V10 €5/mo</td>
+<td style="text-align:left">Linux V30 €15/mo</td>
+<td style="text-align:left">€45/mo</td>
+</tr>
+</tbody>
+</table>
+<p>De kosten voor de Azure Traffic Manager zijn: Eerste 1 miljard DNS-query’s/maand    €0,456 per miljoen query’s. <a href="https://azure.microsoft.com/nl-nl/pricing/details/traffic-manager/" target="_blank" rel="noopener">https://azure.microsoft.com/nl-nl/pricing/details/traffic-manager/</a></p>
+<p>Zoals je ziet in het overzicht 3 providers waarvan Digital Ocean en Azure echt serieuze cloud providers zijn met veel meer services dan alleen virtuele machines. Azure biedt een uptime van 99,9% en Digital Ocean een uptime van 99,99% dit is ook iets waar je voor betaald. Zo zie je dat voor iedereen zijn portemonnee een oplossing is. </p>
+<p>Mocht je toch niet tevreden zijn met de service van je hosting provider dan is het heel gemakkelijk om je infrastructuur op te pakken en deze gewoon bij een andere provider te hosten. Het zijn namelijk gewoon container images en yaml files voor de configuratie en je bent in een mum van tijd weer up en running. </p>
+<p>[^1]: Een service is een image van een microservice in de context van een grotere toepassing.<br>[^2]: Een stack is een Docker-compose file met services gedefinieerd welke in een keer uitgerold kan worden.<br>[^3]: Docker-Compose is een hulpmiddel voor het definiëren en uitvoeren van Docker-toepassingen met meerdere containers.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://cloudrepublic.github.io/2019/11/03/Docker-Swarm/" data-id="ck3k8b2rp00016cunizflfpno" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker-swarm/" rel="tag">Docker swarm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Let-s-Encrypt/" rel="tag">Let's Encrypt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Portainer/" rel="tag">Portainer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Traefik/" rel="tag">Traefik</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/17/CICD-SharePointFramework-part-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Continuous Integration &amp; Deployment with SharePoint Framework Solutions - Part 1 of 2</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/" rel="tag">AngularJS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure/" rel="tag">Azure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-DevOps/" rel="tag">Azure DevOps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Certificering/" rel="tag">Certificering</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Republic/" rel="tag">Cloud Republic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Deployment/" rel="tag">Continuous Deployment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Integration/" rel="tag">Continuous Integration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-swarm/" rel="tag">Docker swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Frontend/" rel="tag">Frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/" rel="tag">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Let-s-Encrypt/" rel="tag">Let's Encrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft-Build/" rel="tag">Microsoft Build</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Office-365/" rel="tag">Office 365</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Portainer/" rel="tag">Portainer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-pipeline/" rel="tag">Release pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-schedule/" rel="tag">Release schedule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPFx/" rel="tag">SPFx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Framework/" rel="tag">SharePoint Framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Online/" rel="tag">SharePoint Online</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Traefik/" rel="tag">Traefik</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpart/" rel="tag">Webpart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Workbench/" rel="tag">Workbench</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Angular/" style="font-size: 10px;">Angular</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Azure/" style="font-size: 10px;">Azure</a> <a href="/tags/Azure-DevOps/" style="font-size: 10px;">Azure DevOps</a> <a href="/tags/Certificering/" style="font-size: 10px;">Certificering</a> <a href="/tags/Cloud-Republic/" style="font-size: 10px;">Cloud Republic</a> <a href="/tags/Continuous-Deployment/" style="font-size: 10px;">Continuous Deployment</a> <a href="/tags/Continuous-Integration/" style="font-size: 10px;">Continuous Integration</a> <a href="/tags/Docker-swarm/" style="font-size: 10px;">Docker swarm</a> <a href="/tags/Frontend/" style="font-size: 20px;">Frontend</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/Let-s-Encrypt/" style="font-size: 10px;">Let's Encrypt</a> <a href="/tags/Microsoft-Build/" style="font-size: 10px;">Microsoft Build</a> <a href="/tags/Office-365/" style="font-size: 20px;">Office 365</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Release-pipeline/" style="font-size: 10px;">Release pipeline</a> <a href="/tags/Release-schedule/" style="font-size: 10px;">Release schedule</a> <a href="/tags/SPFx/" style="font-size: 20px;">SPFx</a> <a href="/tags/SharePoint-Framework/" style="font-size: 20px;">SharePoint Framework</a> <a href="/tags/SharePoint-Online/" style="font-size: 20px;">SharePoint Online</a> <a href="/tags/Traefik/" style="font-size: 10px;">Traefik</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/Webpart/" style="font-size: 20px;">Webpart</a> <a href="/tags/Workbench/" style="font-size: 10px;">Workbench</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/11/03/Docker-Swarm/">Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/17/CICD-SharePointFramework-part-1/">Continuous Integration &amp; Deployment with SharePoint Framework Solutions - Part 1 of 2</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/27/Proof-of-concept-met-azure-batch/">Proof of concept met Azure Batch</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/14/Getting-started-with-SPfx/">Getting started with SharePoint Framework</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/22/follow-the-moon/">Following the moon</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Cloud Republic<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
