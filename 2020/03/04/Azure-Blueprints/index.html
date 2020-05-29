@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-130626812-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <title>Azure-Blueprints | Cloud Republic Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="When we think about a blueprint, we usually think about a technical drawing or guide for making something. It’s a design or pattern that can be followed. If we, for example, want to create a treehouse">
+<meta name="keywords" content="Azure,Azure Blueprints">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure-Blueprints">
+<meta property="og:url" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;2020&#x2F;03&#x2F;04&#x2F;Azure-Blueprints&#x2F;index.html">
+<meta property="og:site_name" content="Cloud Republic Blog">
+<meta property="og:description" content="When we think about a blueprint, we usually think about a technical drawing or guide for making something. It’s a design or pattern that can be followed. If we, for example, want to create a treehouse">
+<meta property="og:locale" content="EN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;CAF-Governance.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;blueprint-diagram.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;create-blueprint.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;blueprint-metadata.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;add-artifact.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;blueprint-artifacts.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;publish-blueprint.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;assign-blueprint.png">
+<meta property="og:updated_time" content="2020-05-29T14:03:08.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;azure-blueprints&#x2F;CAF-Governance.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Cloud Republic Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cloud Republic Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">De Cloud Developers van morgen.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://cloudrepublic.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Azure-Blueprints" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/04/Azure-Blueprints/" class="article-date">
+  <time datetime="2020-03-04T21:03:39.000Z" itemprop="datePublished">2020-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Azure-Blueprints
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>When we think about a blueprint, we usually think about a technical drawing or guide for making something. It’s a design or pattern that can be followed. If we, for example, want to create a treehouse, then we would draw a blueprint and follow the design carefully to always have the same outcome as the blueprint instructs. Azure Blueprints works in much the same way. IT Engineers can use an Azure Blueprint to design and deploy Azure resources to Azure according to different rules and patterns that an enterprise has. By using these blueprints it becomes really easy to quickly deploy resources that adhere to the rules<br>and requirements of an enterprise.</p>
+<h2 id="Case-Description"><a href="#Case-Description" class="headerlink" title="Case Description"></a>Case Description</h2><img src="/images/azure-blueprints/CAF-Governance.png" />
+
+<p>When we look at an enterprise, we usually see that they lack the tools to enforce the governance of Azure Resources. The way they enforce rules on resources is done by a group within the company that is responsible for teaching the development teams how to use Azure they way that the company wants it. This teaching can be done in many different ways, one of which could be a document describing how to create resources and what rules apply when creating them. The development teams can then start using these documents to create the resources they need.</p>
+<p>One of the problems that might occur is that the development team makes a mistake while trying to set up the resources they need. When this happens they will go to the central group that is responsible for Azure and ask them how to fix this. This essentially creates a bottleneck within the company. You can manage when one or two teams ask questions or need assistance when creating resources. But when you have more than ten teams the central team will be delayed in their work.  </p>
+<p>Also what can happen is that the enterprise can enforce governance when things are already deployed to Azure. This could cause some problems as other resources might have to be reconfigured to adhere to the new rules.</p>
+<p>This is where Azure Blueprints comes into play! By using Azure Blueprints not only can we define how the resources should be made and used so that we always end up with the same result as the Blueprint describes. We can also check upon these created resources and make sure that they comply to the set of rules made by the enterprise. This makes sure that the enterprise does not have to interfere everytime resources are requested as they have already made sure that the blueprints use their rules.</p>
+<p>This removes the bottleneck described above as development teams can ask the group responsible for the governance of Azure Resources to create certain resources for them. All the group has to do is use the correct blueprint on the subscription of the development team and they will have the resources they request without having to do anything themselves.</p>
+<h2 id="What-is-Azure-Blueprints"><a href="#What-is-Azure-Blueprints" class="headerlink" title="What is Azure Blueprints?"></a>What is Azure Blueprints?</h2><p>The goal of Azure Blueprints is to  assist development teams or central Azure Architecture teams in deploying new environments easily and quickly but still adhere to the companies rules. </p>
+<p>There are a few artifacts that are used within Azure Blueprints: </p>
+<ul>
+<li>Role Assignments </li>
+<li>Policy Assignments </li>
+<li>ResourceGroups </li>
+<li>ARM Templates </li>
+</ul>
+<p>A blueprint is essentially a package that uses all these types of resources and artifacts together. this package then contains resources that comply with organizational standards and best practices. </p>
+<img src="/images/azure-blueprints/blueprint-diagram.png" />
+
+
+<h2 id="Dive-into-Blueprints"><a href="#Dive-into-Blueprints" class="headerlink" title="Dive into Blueprints"></a>Dive into Blueprints</h2><p>Like most resources in Azure, a blueprint in Azure Blueprints has a natural lifecycle. A blueprint can be created and then deployed and when they are no longer needed they can be removed. </p>
+<p>Azure blueprints also provides support for continuous integration and deployment. </p>
+<p>An Azure Blueprint lifecycle typically consists of: </p>
+<ul>
+<li>Creating a blueprint </li>
+<li>Publishing a blueprint </li>
+<li>Creating and editing a new version of the blueprint </li>
+<li>Publishing a new version of a  blueprint </li>
+<li>Deleting a specific version  of a blueprint </li>
+<li>Deleting a blueprint </li>
+</ul>
+<p>After filling in the meta data for the blueprint it is time to create the actual blueprint.  </p>
+<h2 id="Creating-Blueprint"><a href="#Creating-Blueprint" class="headerlink" title="Creating Blueprint "></a>Creating Blueprint </h2><p>We will be creating a new blueprint in the Azure portal. There are currently options to do this with either Azure CLI or the SDK that is available for Azure Blueprints. </p>
+<p>To find Azure Blueprints on Azure either look under the Policy service or go to all resouces and search for blueprint </p>
+<p>After clicking on the blueprint service you should end up in the Azure Blueprint Blade. On this blade click on the <strong>Create</strong> button </p>
+<img src="/images/azure-blueprints/create-blueprint.png" />
+
+<p>Before we can add artifacts to a blueprint, we first need to give this blueprint a name and a location where we will save the blueprint.</p>
+<img src="/images/azure-blueprints/blueprint-metadata.png" />
+
+<p>We have a few options when picking a location. We can pick between a Management Group or a single subscription.<br>More information on management groups can be found here: <a href="https://docs.microsoft.com/nl-nl/azure/governance/management-groups/overview" target="_blank" rel="noopener">https://docs.microsoft.com/nl-nl/azure/governance/management-groups/overview</a></p>
+<h2 id="Filling-the-artifact-with-content"><a href="#Filling-the-artifact-with-content" class="headerlink" title="Filling the artifact with content"></a>Filling the artifact with content</h2><p>Once all the data is filled in correctly, click on <strong><em>Next: Artifacts</em></strong></p>
+<p>Now we can create the content of the blueprint itself. Here we can add things like Role assignements, ARM templates and Policies.<br><img src="/images/azure-blueprints/add-artifact.png" /></p>
+<p>For this example I made a blueprint that will create a resource group with a storage account. The storage account is being created by an arm template and I made sure that the users that have<br>access to this resource group have the contributor role. The allowed Locations policy that is added restricts users from adding locations that are not allowed.</p>
+<img src="/images/azure-blueprints/blueprint-artifacts.png" />
+
+<p>Now that we have given this Blueprint some content we can click on Save Draft to save the blueprint. The blueprint will now be saved but won’t be deployed just yet.</p>
+<h2 id="Publishing-the-blueprint"><a href="#Publishing-the-blueprint" class="headerlink" title="Publishing the blueprint"></a>Publishing the blueprint</h2><p>The blueprint that we just created will now be saved  as a draft (we have now “drawn” the blueprint, but haven’t created anything with it yet). Let’s start publishing our blueprint and assigning it to a subscription.</p>
+<p>Before we can assign a blueprint and start deploying it to a subscription we need to publish it. By clicking on the <strong><em>Publish Blueprint</em></strong> button the blueprint will be taken out of the draft status. This means that it is not possible to make any changes to this version of the blueprint anymore.</p>
+<img src="/images/azure-blueprints/publish-blueprint.png" />
+
+<p>When publishing the blueprint it is required to give it a <strong><em>version number</em></strong>. When editing a published version we essential create another draft with a different version number. On assignment level we can then select the version number that we want to use.<br>After publishing the blueprint, The edit button turns into a <strong><em>Assign Blueprint button</em></strong>. Click on this to start assigning this blueprint.</p>
+<p>On the assign Blueprint blade we can select a subscription that we want to deploy this blueprint to, some metadata about the blueprint itself. One important this we can do is select what version we want to deploy to the subscription. This gives us the flexability to deploy different versions to different subscriptions depending on the requirements.</p>
+<img src="/images/azure-blueprints/assign-blueprint.png" />
+
+<p>After filling in the basic data we leave the Lock setting to <strong><em>Don’t Lock</em></strong><br>Then we want to fill in the parameter values for the artifacts. Some of the values need to be filled in, others are already filled in if this data was given when creating the artifact.<br>Lastly it is time to click on Assign to assign the blueprint and start the deployment process.</p>
+<p>After the blueprint is assigned and the deployment process is completed we could now see that the storage account showed up in the resourcegroup that we created with this blueprint.</p>
+<h1 id="Blueprints-as-code"><a href="#Blueprints-as-code" class="headerlink" title="Blueprints as code"></a>Blueprints as code</h1><p>Ofcourse it is also possible to create an Azure Blueprint without using the portal. This gives you alot of freedom as you can create blueprints during a build or release pipeline or create your own code that can manage the these blueprints.</p>
+<p>For this example I will be using PowerShell to create a blueprint and publish it.</p>
+<p>Before we can start creating blueprints with PowerShell we first need to make sure that the <a href="https://docs.microsoft.com/nl-nl/azure/governance/blueprints/how-to/manage-assignments-ps#add-the-azblueprint-module" target="_blank" rel="noopener">Az.Blueprint module</a> is installed.</p>
+<h2 id="Create-a-blueprint"><a href="#Create-a-blueprint" class="headerlink" title="Create a blueprint"></a>Create a blueprint</h2><p>Azure Blueprints makes it possible to create a repeatable set of Azure Resources that adhere to the rules and requirements of an organization. It can be used to keep track of what is deployed. What version is deployed where and makes it really easy to update a rule if required. Azure Blueprints also comes with an SDK and API, which gives you the chance to automate this process.</p>
+<p>To create a blueprint we need to first start out by composing a blueprint. This can be done by creating a json file with different resources. We’ll start by creating a blueprint named ‘CloudRepublicBlueprint’ so that we can configure role and policy assignments for a subscription. Next we will add a resourcegroup and storage account to the blueprint. Finally we will publish the blueprint with a version number so that we can assign it to a subscription.</p>
+<p>Start out by creating a blueprint.json file:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">    &#123;</span><br><span class="line">    <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"This blueprint sets tag policy and role assignment on the subscription, creates a ResourceGroup, and deploys a resource template and role assignment to that ResourceGroup."</span>,</span><br><span class="line">        <span class="attr">"targetScope"</span>: <span class="string">"subscription"</span>,</span><br><span class="line">        <span class="attr">"parameters"</span>: &#123;</span><br><span class="line">            <span class="attr">"storageAccountType"</span>: &#123;</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">                <span class="attr">"defaultValue"</span>: <span class="string">"Standard_LRS"</span>,</span><br><span class="line">                <span class="attr">"allowedValues"</span>: [</span><br><span class="line">                    <span class="string">"Standard_LRS"</span>,</span><br><span class="line">                    <span class="string">"Standard_GRS"</span>,</span><br><span class="line">                    <span class="string">"Standard_ZRS"</span>,</span><br><span class="line">                    <span class="string">"Premium_LRS"</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"displayName"</span>: <span class="string">"storage account type."</span>,</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="literal">null</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"tagName"</span>: &#123;</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"displayName"</span>: <span class="string">"The name of the tag to provide the policy assignment."</span>,</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="literal">null</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"tagValue"</span>: &#123;</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"displayName"</span>: <span class="string">"The value of the tag to provide the policy assignment."</span>,</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="literal">null</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"contributors"</span>: &#123;</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"array"</span>,</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"List of AAD object IDs that is assigned Contributor role at the subscription"</span>,</span><br><span class="line">                    <span class="attr">"strongType"</span>: <span class="string">"PrincipalId"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"owners"</span>: &#123;</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"array"</span>,</span><br><span class="line">                <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"List of AAD object IDs that is assigned Owner role at the resource group"</span>,</span><br><span class="line">                    <span class="attr">"strongType"</span>: <span class="string">"PrincipalId"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"resourceGroups"</span>: &#123;</span><br><span class="line">            <span class="attr">"storageRG"</span>: &#123;</span><br><span class="line">                <span class="attr">"description"</span>: <span class="string">"Contains the resource template deployment and a role assignment."</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>this blueprint.json file will be used to create the blueprint. Run the following script with the <code>blueprint.json</code> to create a draft of this blueprint:</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$blueprint</span> = New-AzBlueprint -Name <span class="string">'CloudRepublicBlueprint'</span> -BlueprintFile .\blueprint.json</span><br></pre></td></tr></table></figure>
+
+<p>This will create the blueprint in the subscription that is selected by default. To specify a subscription use <code>SubscriptionId</code>.</p>
+<h3 id="Assigning-Resource-Template"><a href="#Assigning-Resource-Template" class="headerlink" title="Assigning Resource Template"></a>Assigning Resource Template</h3><p>now that the storage account is created, we can add policies and Azure Resource Template to this resource group.</p>
+<p>The following code will add a storage account where we can add the parameters when we assign the blueprint to a subscription:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"$schema"</span>: <span class="string">"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"</span>,</span><br><span class="line">    <span class="attr">"contentVersion"</span>: <span class="string">"1.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"parameters"</span>: &#123;</span><br><span class="line">        <span class="attr">"CloudRepublicStorageAccountType"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">            <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                <span class="attr">"description"</span>: <span class="string">"Storage Account type"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"CloudRepublicTagName"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">            <span class="attr">"defaultValue"</span>: <span class="string">"NotSet"</span>,</span><br><span class="line">            <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                <span class="attr">"description"</span>: <span class="string">"Tag name from blueprint"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"tagValue"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">            <span class="attr">"defaultValue"</span>: <span class="string">"NotSet"</span>,</span><br><span class="line">            <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">                <span class="attr">"description"</span>: <span class="string">"Tag value from blueprint"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"variables"</span>: &#123;</span><br><span class="line">        <span class="attr">"storageAccountName"</span>: <span class="string">"[concat(uniquestring(resourceGroup().id), 'standardsa')]"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"resources"</span>: [&#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"Microsoft.Storage/storageAccounts"</span>,</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"[variables('storageAccountName')]"</span>,</span><br><span class="line">        <span class="attr">"apiVersion"</span>: <span class="string">"2016-01-01"</span>,</span><br><span class="line">        <span class="attr">"tags"</span>: &#123;</span><br><span class="line">            <span class="attr">"[parameters('tagName')]"</span>: <span class="string">"[parameters('tagValue')]"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"location"</span>: <span class="string">"[resourceGroup().location]"</span>,</span><br><span class="line">        <span class="attr">"sku"</span>: &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"[parameters('storageAccountType')]"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"kind"</span>: <span class="string">"Storage"</span>,</span><br><span class="line">        <span class="attr">"properties"</span>: &#123;&#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">"outputs"</span>: &#123;</span><br><span class="line">        <span class="attr">"storageAccountSku"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">            <span class="attr">"value"</span>: <span class="string">"[variables('storageAccountName')]"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Following code will use the parameters <code>CloudRepublicStorageAccountType</code> , <code>CloudRepublicTagName</code> and <code>CloudRepublicTagValue</code> that we need to provide in a parameter file</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"$schema"</span>: <span class="string">"https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#"</span>,</span><br><span class="line">    <span class="attr">"contentVersion"</span>: <span class="string">"1.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"parameters"</span>: &#123;</span><br><span class="line">        <span class="attr">"CloudRepublicStorageAccountType"</span>: &#123;</span><br><span class="line">            <span class="attr">"value"</span>: <span class="string">"[parameters('storageAccountType')]"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"CloudRepublicTagName"</span>: &#123;</span><br><span class="line">            <span class="attr">"value"</span>: <span class="string">"[parameters('tagName')]"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"CloudRepublicTagValue"</span>: &#123;</span><br><span class="line">            <span class="attr">"value"</span>: <span class="string">"[parameters('tagValue')]"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To assign the ARM template to the draft blueprint we run the following PowerShell script:</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-AzBlueprintArtifact -Blueprint <span class="variable">$blueprint</span> -Type TemplateArtifact -Name <span class="string">'CloudRepublicStorage'</span> -TemplateFile .\storageTemplate.json -TemplateParameterFile .\storageTemplateParameters.json -ResourceGroupName storageRG</span><br></pre></td></tr></table></figure>
+
+<h3 id="Adding-policies-or-role-assignments"><a href="#Adding-policies-or-role-assignments" class="headerlink" title="Adding policies or role assignments"></a>Adding policies or role assignments</h3><p>To add a policy or role assignment we need to create a json object for this as well. The example below uses the definition identifier for the <strong>Owner</strong> role which is the build in GUID <code>8e3af657-a8ff-443c-a75c-2fe8c4bcb635</code> </p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"kind"</span>: <span class="string">"roleAssignment"</span>,</span><br><span class="line">    <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"resourceGroup"</span>: <span class="string">"storageRG"</span>,</span><br><span class="line">        <span class="attr">"roleDefinitionId"</span>: <span class="string">"/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"</span>,</span><br><span class="line">        <span class="attr">"principalIds"</span>: <span class="string">"[parameters('owners')]"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>PowerShell command to add the role assignment to the blueprint</p>
+<pre><code>New-AzBlueprintArtifact -Blueprint $blueprint -Name &apos;roleOwner&apos; -ArtifactFile .\artifacts\roleOwner.json</code></pre><h2 id="Publishing-blueprint"><a href="#Publishing-blueprint" class="headerlink" title="Publishing blueprint"></a>Publishing blueprint</h2><p>now that all the artifacts and policies have been added to the blueprint it is time to finally publish the  blueprint and make it available for assignment</p>
+<pre><code>Publish-AzBlueprint -Blueprint $blueprint -Version &apos;1.0&apos;</code></pre><p>this will publish the blueprint with version 1.0. The version can be set to anything. But for this example we set it to version 1.0</p>
+<h2 id="Assigning-blueprint"><a href="#Assigning-blueprint" class="headerlink" title="Assigning blueprint"></a>Assigning blueprint</h2><p>The blueprint is published and ready to be assigned!</p>
+<p>Blueprint assignment works the same as previous steps. So we first have to create an assignment.json file that contains our assignment details:</p>
+<pre><code>{
+    &quot;properties&quot;: {
+        &quot;blueprintId&quot;: &quot;&lt;id of blueprint&gt;&quot;,
+        &quot;resourceGroups&quot;: {
+            &quot;storageRG&quot;: {
+                &quot;name&quot;: &quot;&lt;name of the storage account&gt;&quot;,
+                &quot;location&quot;: &quot;&lt;location of the storage account&gt;&quot;
+            }
+        },
+        &quot;parameters&quot;: {
+            &quot;storageAccountType&quot;: {
+                &quot;value&quot;: &quot;Standard_GRS&quot;
+            },
+            &quot;tagName&quot;: {
+                &quot;value&quot;: &quot;CostCenter&quot;
+            },
+            &quot;tagValue&quot;: {
+                &quot;value&quot;: &quot;ContosoIT&quot;
+            },
+            &quot;contributors&quot;: {
+                &quot;value&quot;: [
+                    &quot;&lt;objectId of the principal from Azure Active Directory&gt;&quot;
+                ]
+            },
+            &quot;owners&quot;: {
+                &quot;value&quot;: [
+                    &quot;&lt;objectId of the principal from Azure Active Directory&gt;&quot;
+                ]
+            }
+        }
+    },
+    &quot;identity&quot;: {
+        &quot;type&quot;: &quot;systemAssigned&quot;
+    },
+    &quot;location&quot;: &quot;westus&quot;
+}</code></pre><p>PowerShell command the assign the blueprint</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-AzBlueprintAssignment -Blueprint <span class="variable">$blueprint</span> -Name <span class="string">'assignMyBlueprint'</span> -AssignmentFile .\blueprintAssignment.json</span><br></pre></td></tr></table></figure>
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion "></a>Conclusion </h2><p>Azure Blueprints makes it possible to create a repeatable set of Azure Resources that adhere to the rules and requirements of an organization. It can be used to keep track of what is deployed. What version is deployed where and makes it really easy to update a rule if required. Azure Blueprints also comes with an SDK and API, which gives you the chance to automate this process.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://cloudrepublic.github.io/2020/03/04/Azure-Blueprints/" data-id="ckasa0xhe0000awun2354361j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Azure/" rel="tag">Azure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Azure-Blueprints/" rel="tag">Azure Blueprints</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/03/15/Unit-Testing-improvements/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Unit Testing improvements
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/04/kubernetes/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Kubernetes, Nginx ingress controller en Let&#39;s Encrypt op AKS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AKS/" rel="tag">AKS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/" rel="tag">AngularJS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure/" rel="tag">Azure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Blueprints/" rel="tag">Azure Blueprints</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-DevOps/" rel="tag">Azure DevOps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Certificering/" rel="tag">Certificering</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Clean-Code/" rel="tag">Clean Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Republic/" rel="tag">Cloud Republic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Deployment/" rel="tag">Continuous Deployment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Integration/" rel="tag">Continuous Integration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-swarm/" rel="tag">Docker swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Frontend/" rel="tag">Frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/" rel="tag">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Let-s-Encrypt/" rel="tag">Let's Encrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft-Build/" rel="tag">Microsoft Build</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mocking/" rel="tag">Mocking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Office-365/" rel="tag">Office 365</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Portainer/" rel="tag">Portainer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-pipeline/" rel="tag">Release pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-schedule/" rel="tag">Release schedule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPFx/" rel="tag">SPFx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Framework/" rel="tag">SharePoint Framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Online/" rel="tag">SharePoint Online</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Traefik/" rel="tag">Traefik</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Test-Naming/" rel="tag">Unit Test Naming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing-improvements/" rel="tag">Unit Testing improvements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpart/" rel="tag">Webpart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Workbench/" rel="tag">Workbench</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xUnit/" rel="tag">xUnit</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AKS/" style="font-size: 10px;">AKS</a> <a href="/tags/Angular/" style="font-size: 10px;">Angular</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Azure/" style="font-size: 20px;">Azure</a> <a href="/tags/Azure-Blueprints/" style="font-size: 10px;">Azure Blueprints</a> <a href="/tags/Azure-DevOps/" style="font-size: 10px;">Azure DevOps</a> <a href="/tags/Certificering/" style="font-size: 10px;">Certificering</a> <a href="/tags/Clean-Code/" style="font-size: 10px;">Clean Code</a> <a href="/tags/Cloud-Republic/" style="font-size: 10px;">Cloud Republic</a> <a href="/tags/Continuous-Deployment/" style="font-size: 10px;">Continuous Deployment</a> <a href="/tags/Continuous-Integration/" style="font-size: 10px;">Continuous Integration</a> <a href="/tags/Docker-swarm/" style="font-size: 10px;">Docker swarm</a> <a href="/tags/Frontend/" style="font-size: 20px;">Frontend</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Let-s-Encrypt/" style="font-size: 20px;">Let's Encrypt</a> <a href="/tags/Microsoft-Build/" style="font-size: 10px;">Microsoft Build</a> <a href="/tags/Mocking/" style="font-size: 10px;">Mocking</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Office-365/" style="font-size: 20px;">Office 365</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Release-pipeline/" style="font-size: 10px;">Release pipeline</a> <a href="/tags/Release-schedule/" style="font-size: 10px;">Release schedule</a> <a href="/tags/SPFx/" style="font-size: 20px;">SPFx</a> <a href="/tags/SharePoint-Framework/" style="font-size: 20px;">SharePoint Framework</a> <a href="/tags/SharePoint-Online/" style="font-size: 20px;">SharePoint Online</a> <a href="/tags/Traefik/" style="font-size: 10px;">Traefik</a> <a href="/tags/Unit-Test-Naming/" style="font-size: 10px;">Unit Test Naming</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/Unit-Testing-improvements/" style="font-size: 10px;">Unit Testing improvements</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/Webpart/" style="font-size: 20px;">Webpart</a> <a href="/tags/Workbench/" style="font-size: 10px;">Workbench</a> <a href="/tags/xUnit/" style="font-size: 10px;">xUnit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/03/15/Unit-Testing-improvements/">Unit Testing improvements</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/04/Azure-Blueprints/">Azure-Blueprints</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/04/kubernetes/">Kubernetes, Nginx ingress controller en Let&#39;s Encrypt op AKS</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/03/Docker-Swarm/">Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/17/CICD-SharePointFramework-part-1/">Continuous Integration &amp; Deployment with SharePoint Framework Solutions - Part 1 of 2</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cloud Republic<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

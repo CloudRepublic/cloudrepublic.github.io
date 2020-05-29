@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cloudrepublic.github.io/2020/03/04/kubernetes/</loc>
+    
+    <lastmod>2020-05-29T14:03:08.303Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://cloudrepublic.github.io/2020/03/15/Unit-Testing-improvements/</loc>
+    
+    <lastmod>2020-05-29T14:03:08.303Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://cloudrepublic.github.io/2020/03/04/Azure-Blueprints/</loc>
+    
+    <lastmod>2020-05-29T14:03:08.303Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cloudrepublic.github.io/2019/11/03/Docker-Swarm/</loc>
     
     <lastmod>2019-11-29T14:14:53.465Z</lastmod>

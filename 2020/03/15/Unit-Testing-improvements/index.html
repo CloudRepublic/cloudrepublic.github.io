@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-130626812-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <title>Unit Testing improvements | Cloud Republic Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Tests are stories we tell the next generation of programmers on a project. If you are to lazy to write them well consider moving to a different profession. This isn’t a job for you. Source: Roy Oshero">
+<meta name="keywords" content="Unit Testing,Unit Testing improvements,xUnit,Mocking,Unit Test Naming,Clean Code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unit Testing improvements">
+<meta property="og:url" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;2020&#x2F;03&#x2F;15&#x2F;Unit-Testing-improvements&#x2F;index.html">
+<meta property="og:site_name" content="Cloud Republic Blog">
+<meta property="og:description" content="Tests are stories we tell the next generation of programmers on a project. If you are to lazy to write them well consider moving to a different profession. This isn’t a job for you. Source: Roy Oshero">
+<meta property="og:locale" content="EN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%201.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%202.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%203.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%204.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%205.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%206.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%207.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%208.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%209.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code%2010.png">
+<meta property="og:updated_time" content="2020-05-29T14:03:08.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cloudrepublic.github.io&#x2F;images&#x2F;unit-testing-improvements&#x2F;code.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Cloud Republic Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cloud Republic Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">De Cloud Developers van morgen.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://cloudrepublic.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Unit-Testing-improvements" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/15/Unit-Testing-improvements/" class="article-date">
+  <time datetime="2020-03-15T08:23:54.000Z" itemprop="datePublished">2020-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Unit Testing improvements
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Tests are stories we tell the next generation of programmers on a project. If you are to lazy to write them well consider moving to a different profession. This isn’t a job for you.</p>
+<p>Source: <a href="https://www.manning.com/books/the-art-of-unit-testing-second-edition" target="_blank" rel="noopener">Roy Osherove - The Art of Unit Testing</a></p>
+<p>In a world where we use CI / CD pipelines to automate our releases unit tests are an essential part of a successful software project. Not only do they help us to debug the code we are writing faster but they also help us to validate the code before releasing it to our users.</p>
+<p>In this post, we will go over the steps you can take to improve your unit tests and therefore create a better product in the end.</p>
+<h1 id="Naming"><a href="#Naming" class="headerlink" title="Naming"></a>Naming</h1><p>Using a good naming convention for a unit test does not necessarily help you to write a better product but it will help your team to identify clearly what unit is tested and what state the unit under test is in.</p>
+<p>One of the most know conventions that are currently used is <code>[MethodUnderTest]_[Scenario]_[ExpectedResult]</code>. While it is not a bad naming convention it is limited. Writing the naming of the unit test this way leaves out some imported details and might not make it clear to other programmers what the test is trying to test. With naming it is better to tell the story of the test. Let’s look at two examples.</p>
+<p>In this example, we are looking at a static method that checks on an order if the delivery is valid. Using the convention mentioned above we would get something like this:</p>
+<p><code>IsDeliveryValid_InvalidDate_ReturnsFalse</code></p>
+<p>While this is giving us a lot of information about what the unit under test is supposed to do it does not describe the scenario that we want to validate. Let’s look at a better example:</p>
+<p><code>Delivery_with_invalid_date_should_be_considered_invalid</code></p>
+<p>The above example describes the behavior of the application we are trying to test rather than the code that will be part of the test. This also will help new programmers to understand the application better with limited domain knowledge.</p>
+<h1 id="Test-method-layout"><a href="#Test-method-layout" class="headerlink" title="Test method layout"></a>Test method layout</h1><p>Another way to make your tests more readable and separate the parts of your tests is by using the <code>Arrange</code>, <code>Act</code>, and <code>Assert</code> pattern or <code>AAA</code> for short. using this pattern we split our test into 3 distinct parts.</p>
+<p>The <code>Arrange</code> section is used to initialize objects and gather data needed for the test or set local variables.</p>
+<p>The <code>Act</code> section is used to invoke the method that this test is designed for.</p>
+<p>The <code>Assert</code> section is used to verify that we received the expected result from invoking the method under test.</p>
+<p>Using this pattern a test could look like this:</p>
+<p><img src="/images/unit-testing-improvements/code.png" alt="/images/unit-testing-improvements/code.png"></p>
+<h1 id="Simplifying-tests-and-reusing-code"><a href="#Simplifying-tests-and-reusing-code" class="headerlink" title="Simplifying tests and reusing code"></a>Simplifying tests and reusing code</h1><p>If you are writing tests you often have to instantiate objects that are under test and bring them into a specific state to perform the test. Instantiating all these objects in the test method can clutter up your test and lead to a lot of duplicate code.</p>
+<p>The builder pattern is here to help. With this pattern, we can bring the objects into a state step by step to meet the requirements of our test. To use the builder pattern we create extension methods that allow us to buildup the object to the desired state. This helps to keep our tests clear, more readable and results in less duplicated code during testing.</p>
+<p>In this example, we will be testing the method that checks if an order is ready to be shipped. Since the order is an object that is heavily used in the system we would not want to create it over and over again. Let’s have a look at the order object:</p>
+<p><img src="/images/unit-testing-improvements/code%201.png" alt="/images/unit-testing-improvements/code%201.png"></p>
+<p>As you can see we have a method called <code>CanShip</code>. We should test this method to ensure that for example, we do not ship orders to customers that are not paid yet. We might also want to test if <code>CanShip</code> still returns false if the Address is not set yet. We already have two tests to write where we need a new instance of the Order class in a specific state. Creating a new instance of the Order class every time from scratch would not be efficient.</p>
+<p>So let’s start making use of the builder pattern to buildup the Order class. First, we need a base state that we call <code>Default</code> and we create an extension method for it:</p>
+<p><img src="/images/unit-testing-improvements/code%202.png" alt="/images/unit-testing-improvements/code%202.png"></p>
+<p>With this extension in place, we can start and write our first unit test for the Order class. The unit test will look as follows:</p>
+<p><img src="/images/unit-testing-improvements/code%203.png" alt="/images/unit-testing-improvements/code%203.png"></p>
+<p>As you can see from the picture above we used the extension method to get the order in the default state. What this default state means for you or your team can depend on the object in the test or on how the object is used in the system. In our example default just sets all the fields to a valid value and sets the status to new.</p>
+<p>From hereon, we can keep using this method in other tests as well. Now let’s imagine we add order-lines to our order class like this:</p>
+<p><img src="/images/unit-testing-improvements/code%204.png" alt="/images/unit-testing-improvements/code%204.png"></p>
+<p>We can now create a new extension method for our order that allows us to build a default order with order-lines. The extension method would look like this:</p>
+<p><img src="/images/unit-testing-improvements/code%205.png" alt="/images/unit-testing-improvements/code%205.png"></p>
+<p>In the method above I’ve created the order-line from scratch but let’s say we want to test this object in multiple tests we could create the same <code>Default</code> extension method as we did for the order class. We can now use this extension method in our next test like this:</p>
+<p><img src="/images/unit-testing-improvements/code%206.png" alt="/images/unit-testing-improvements/code%206.png"></p>
+<p>As you can see we can make the test a lot smaller and with less repetitive code. It is like ordering a pizza and saying which toppings you want on the pizza.</p>
+<h1 id="Mocking"><a href="#Mocking" class="headerlink" title="Mocking"></a>Mocking</h1><p>With mocking we emulate behavior during our tests that are outside of the scope that we need to test but is needed for the test to run. A good example would be a method the does some validation logic and then gets an order from the database. We would want to test the validation logic but not the database call because this would be more like a regression test.</p>
+<p>In the .Net world, there are a lot of Nuget packages that can help you with mocking but one of the more popular ones is <code>Moq</code>. This is also the package we are gonna use. While writing the mocking of for example the database call we can use some of the things we learned earlier. In the example below, we are gonna use the builder pattern again to get rid of the mocking code and move it to an extension method.</p>
+<p>Lets take the example we described above. The method could look like this:</p>
+<p><img src="/images/unit-testing-improvements/code%207.png" alt="/images/unit-testing-improvements/code%207.png"></p>
+<p>We are checking that the <code>orderId</code> is not null or empty and then we are calling the <code>GetOrder</code> method to get the Order from the database.</p>
+<p>If we want to mock this method we need to set up a mock instance of the database class. The setup for this mock will look like this:</p>
+<p><img src="/images/unit-testing-improvements/code%208.png" alt="/images/unit-testing-improvements/code%208.png"></p>
+<p>As you can see we are using the Default extension here on the Order class to create a new default Order. Now we could set up the database every time like this in every test we use but that would be tedious to write the same code every time so let’s create another extension method:</p>
+<p><img src="/images/unit-testing-improvements/code%209.png" alt="/images/unit-testing-improvements/code%209.png"></p>
+<p>With this extension method, we can quickly set up a new database and return a default order whenever we need to during testing. So let’s see what a test would look like using this extension method:</p>
+<p><img src="/images/unit-testing-improvements/code%2010.png" alt="/images/unit-testing-improvements/code%2010.png"></p>
+<p>In the beginning, it seems like a lot of extra work to create all these extension methods but ones you have a lot of tests that reuse the extension methods they feel like a big time saver.</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>As we saw in the scenarios described above we can make some nice improvements to our unit tests to slim them down and make the code more reusable. I would not recommend to rewrite all you tests straight away but ones you need to fix a test or write new ones you can use these tips to make them better.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://cloudrepublic.github.io/2020/03/15/Unit-Testing-improvements/" data-id="ckasa0xhi0001awun32jeb2b4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Clean-Code/" rel="tag">Clean Code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mocking/" rel="tag">Mocking</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Test-Naming/" rel="tag">Unit Test Naming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unit-Testing-improvements/" rel="tag">Unit Testing improvements</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xUnit/" rel="tag">xUnit</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/04/Azure-Blueprints/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Azure-Blueprints</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AKS/" rel="tag">AKS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular/" rel="tag">Angular</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/" rel="tag">AngularJS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure/" rel="tag">Azure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Blueprints/" rel="tag">Azure Blueprints</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-DevOps/" rel="tag">Azure DevOps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Certificering/" rel="tag">Certificering</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Clean-Code/" rel="tag">Clean Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Republic/" rel="tag">Cloud Republic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Deployment/" rel="tag">Continuous Deployment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Continuous-Integration/" rel="tag">Continuous Integration</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker-swarm/" rel="tag">Docker swarm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Frontend/" rel="tag">Frontend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/" rel="tag">Gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hybrid/" rel="tag">Hybrid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Let-s-Encrypt/" rel="tag">Let's Encrypt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft-Build/" rel="tag">Microsoft Build</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mocking/" rel="tag">Mocking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Office-365/" rel="tag">Office 365</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Portainer/" rel="tag">Portainer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-pipeline/" rel="tag">Release pipeline</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Release-schedule/" rel="tag">Release schedule</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SPFx/" rel="tag">SPFx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Framework/" rel="tag">SharePoint Framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharePoint-Online/" rel="tag">SharePoint Online</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Traefik/" rel="tag">Traefik</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Test-Naming/" rel="tag">Unit Test Naming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/" rel="tag">Unit Testing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing-improvements/" rel="tag">Unit Testing improvements</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpart/" rel="tag">Webpart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Workbench/" rel="tag">Workbench</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xUnit/" rel="tag">xUnit</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AKS/" style="font-size: 10px;">AKS</a> <a href="/tags/Angular/" style="font-size: 10px;">Angular</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/Azure/" style="font-size: 20px;">Azure</a> <a href="/tags/Azure-Blueprints/" style="font-size: 10px;">Azure Blueprints</a> <a href="/tags/Azure-DevOps/" style="font-size: 10px;">Azure DevOps</a> <a href="/tags/Certificering/" style="font-size: 10px;">Certificering</a> <a href="/tags/Clean-Code/" style="font-size: 10px;">Clean Code</a> <a href="/tags/Cloud-Republic/" style="font-size: 10px;">Cloud Republic</a> <a href="/tags/Continuous-Deployment/" style="font-size: 10px;">Continuous Deployment</a> <a href="/tags/Continuous-Integration/" style="font-size: 10px;">Continuous Integration</a> <a href="/tags/Docker-swarm/" style="font-size: 10px;">Docker swarm</a> <a href="/tags/Frontend/" style="font-size: 20px;">Frontend</a> <a href="/tags/Gulp/" style="font-size: 10px;">Gulp</a> <a href="/tags/Hybrid/" style="font-size: 10px;">Hybrid</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Let-s-Encrypt/" style="font-size: 20px;">Let's Encrypt</a> <a href="/tags/Microsoft-Build/" style="font-size: 10px;">Microsoft Build</a> <a href="/tags/Mocking/" style="font-size: 10px;">Mocking</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Office-365/" style="font-size: 20px;">Office 365</a> <a href="/tags/Portainer/" style="font-size: 10px;">Portainer</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Release-pipeline/" style="font-size: 10px;">Release pipeline</a> <a href="/tags/Release-schedule/" style="font-size: 10px;">Release schedule</a> <a href="/tags/SPFx/" style="font-size: 20px;">SPFx</a> <a href="/tags/SharePoint-Framework/" style="font-size: 20px;">SharePoint Framework</a> <a href="/tags/SharePoint-Online/" style="font-size: 20px;">SharePoint Online</a> <a href="/tags/Traefik/" style="font-size: 10px;">Traefik</a> <a href="/tags/Unit-Test-Naming/" style="font-size: 10px;">Unit Test Naming</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/Unit-Testing-improvements/" style="font-size: 10px;">Unit Testing improvements</a> <a href="/tags/Webpack/" style="font-size: 10px;">Webpack</a> <a href="/tags/Webpart/" style="font-size: 20px;">Webpart</a> <a href="/tags/Workbench/" style="font-size: 10px;">Workbench</a> <a href="/tags/xUnit/" style="font-size: 10px;">xUnit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/03/15/Unit-Testing-improvements/">Unit Testing improvements</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/04/Azure-Blueprints/">Azure-Blueprints</a>
+          </li>
+        
+          <li>
+            <a href="/2020/03/04/kubernetes/">Kubernetes, Nginx ingress controller en Let&#39;s Encrypt op AKS</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/03/Docker-Swarm/">Docker Swarm, Traefik, Let&#39;s Encrypt en Portainer</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/17/CICD-SharePointFramework-part-1/">Continuous Integration &amp; Deployment with SharePoint Framework Solutions - Part 1 of 2</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cloud Republic<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
